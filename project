@@ -8,4 +8,77 @@ output: pdf_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+---
+title: "project"
+author: "Alan Nurcahyo"
+date: "11/1/2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+##load df
+crime <- read_csv(file = "Arrests 2017 Public.csv")
+```
+
+# research question : 1. There is a association between defendant profile (age, race, ethnicity and/or sex, state address) and type
+of arrest category. 
+
+```{r}
+crime %>%
+  filter(`Defendant Sex` != "UNK") %>%
+  ggplot(aes(Age)) +
+  geom_histogram() + 
+  theme_bw() + 
+  facet_wrap(~`Defendant Sex`)
+  xlab("Arrestee Age") + ylab("number of arrestee") + ggtitle("number of arrestee by age in 2017") 
+
+crime %>%
+  ggplot(aes(`Arrest Category`)) +
+  geom_bar() + 
+  theme_bw()
+```
+
+
+# research question : 2. There are area which more offence and/or arrest than other. (possible by create a heat
+map of offense and/or arrest location)
+```{r}
+library(tigris) #package with available shape file
+library(rgdal) #dependent for tigris
+library(sf) #package to load shape file
+library(rvest) 
+
+##map loading using tigris
+map <- counties(11)
+map <- st_as_sf(map)
+class(map)
+
+#map laying
+plotmap <- ggplot(map) +
+  geom_sf(aes()) +
+  theme_bw()
+plotmap
+
+crime2 <- na.omit(crime)
+crime2
+#map overlaying
+plotmap + 
+  geom_point(data = crime2, aes(`Arrest Longitude`, `Arrest Latitude`), alpha = 0.03, colour= "red") + 
+  ggtitle("Crime in DC")
+```
+
+#3. There is association between type of arrest/offense and location.
+
+
+
+#4. There are PSA had more arrest than other.
+
 
