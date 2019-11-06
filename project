@@ -57,16 +57,25 @@ plotmap <- ggplot(map) +
   theme_bw()
 plotmap
 
-crime2 <- na.omit(crime)
-crime2
-#map overlaying
-plotmap + 
-  geom_point(data = crime2, aes(`Arrest Longitude`, `Arrest Latitude`), alpha = 0.03, colour= "red") + 
-  ggtitle("Crime in DC")
+
 ```
 
 #3. There is association between type of arrest/offense and location.
+```{r}
+crime2 <- na.omit(crime)
+crime2
+#map overlaying arrest location
+plotmap + 
+  geom_point(data = crime2, aes(`Arrest Longitude`, `Arrest Latitude`), alpha = 0.03, colour= "red") + 
+  ggtitle("Crime in DC")
 
+crime2
+#map overlaying offense location
+plotmap + 
+  geom_point(data = crime2, aes(`Offense Longitude`, `Offense Latitude`), alpha = 0.03, colour= "red") + 
+  ggtitle("Crime in DC")
+  
+```
 
 
 #4. There are PSA had more arrest than other.
