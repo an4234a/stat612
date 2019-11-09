@@ -1,0 +1,48 @@
+---
+title: "Progress_Report_612"
+author: "Kevin Shrawder and Alan Nurcahyo"
+date: "11/8/2019"
+output: pdf_document
+
+---
+
+
+**Literature Review**
+
+ Crime rates are an ongoing discussion and topic for study in practically every city within the United States. Most studies attempt to capture the demographic profile and find its association between the crime incidents reported for the city to highlight if there are disparities between key demographic components and crime rate. One such study is *The Age Structure-Crime Rate Relationship: Solving a Long-Standing Puzzle* by Patricia McCall, Kenneth Land, Cindy dollar, and Karen Parker. This article outlines further breaks down the demographic of age into various categories. These categories are then analyzed and the authors in turn were able to draw the conclusion that it's not so much about age groups, but the control factors for the individual that contribute to the crime rate for a city. Furthermore, the article *Gender, Race, and Homicide: Precarious Gesture and Bringing the Generalized Other Back In* by Anthony J. Lemelle performs a popular technique of cultural analysis on crime data to create his determinations. This method allows Lemelle to come to the conclusions that homicide rates are very much based on local culture and practices. He suggests that this concept of structure in local cultures should be reconsidered when thinking about homicide rates for an area. 
+  
+
+ Other areas of interest where research on the topic has already been done is socioeconomic status of the community, geographic location, and physical environment (home life situation). John Hipp, Young-An Kim, and Kevin Kane write an article entitled *The Effect of the Physical Environment on Crime Rates: Capturing Housing Age and Housing Type at Varying Spatial Scales* that covers some of these considerations. This study on housing types, neighborhoods, and no doubt socioeconomic status, found that there are strong associations between a particular type of crime's rate of occurrence and the type of housing amenity that is within that area. Furthermore, they concluded that the type of housing within an area contributed to the location that a crime occurs suggesting that most crime occurs within the neighborhood the perpetrator lives. The article *Space Matters: An Analysis of Poverty, Poverty Clustering, and Violent Crime* by Paul Stretesky, Amie Schuck, and Michael Hogan cover the specific issue of socioeconomic status in the form of poverty rates. In this study, the authors use OLS regressions and clustering to find that poverty is associated with crimes such as robbery and homicide, but not for crimes like rape, assault, and general violent crime. Additionally, the research suggests that there could be an issue due to economically disadvantage communities not being comfortable reporting crimes to the police that are non-violent in nature and, as such, could skew the data. 
+  
+  Finally, we thought it best to investigate research surrounding Washington D.C. as the District has significant differences to other cities due to its nature and history. The article *Police Checkpoints: Lack of Guidance from the Supreme Court Contributes to Disregard of Civil Liberties in the District of Columbia* by Jason Fiebig is one such article that delves into the history of crime in The District. In this article, the author analyzes legal precedent for police enforcement and crim prevention. He concludes that in D.C. the rules change for policing such that the police are given more power and jurisdictional control over individual neighborhoods to police as they see fit in ways that wouldn't necessarily be acceptable or legally enforceable in other cities. The article *The Scary World in Your Living Room and Neighborhood: Using Local Broadcast News, Neighborhood Crime Rates, and Personal Experience to Test Agenda Setting and Cultivation* by Kimberly Gross and Sean Aday explore another facet of crime rate in this unusual city: mass communication agenda setting and cultivation. In this study, they found that although the media set the narrative around crime influencing people to cite crime as an issue in their city, what made people feel unsafe was personal experience. Also, the study found that those who live in an area where property crime is high are not fearful of being the victim of a crime due likely due to their affluence. 
+  
+  Reviewing the other studies surrounding topics that may have an impact on our project provide useful information on how we will need to conduct our analysis. We used this information to account for various control variables, and to give us a frame of mind when looking at the completed analysis such that we do not incorporate any bias that the data may be showing. We have not fully dug into the analysis yet, but we have completed a preliminary exploration of the data which we have gathered. 
+
+**Completed Work**
+
+  In the accompanying RMD file, you will see the code file in which we being to analyze the data which we have found for this project. The data was downloaded from the Washington D.C. Metropolitan Police Department website in which they have crime data publicly available - we used the 2017 crime data for this project. We have also downloaded, but have not yet used, the American Community Survey data by ward for housing, social, economic, and demographic characteristics which we plan to incorporate in our analysis for this project. This data also came from a publicly available site where Washington D.C. government stores its data. 
+  
+  We have begun to analyze some of the crime data in the form of creating exploratory visualizations to get a feel for the data. These visualizations and their accompanying code are included in other files submitted for this assignment. We have not yet incorporated the ACS data into these crime data for analysis yet but plan to do so in the future to get a better picture of what is going on in each area. 
+  
+**Next Steps**
+
+  As we continue to progress in this project, we will need to identify a way to accurately merge the ACS data with the crime data. This will probably require us to recode some variables in the crime data to identify which ward the crime occurred in, then matching that information with the ACS data to complete this portion of our analysis. We intent to use R to complete some statistical analysis methods including but not limited to: Chi-Squared tests, ANOVA tests, correlation matrices, and the creation of summary tables to exemplify our findings in this project. Depending on what the analysis yields, we may find ourselves with other areas to briefly explore before formulating our conclusions about each hypothesis. If that is the case, we will do the appropriate statistical analysis to evaluate these hypotheses. The final part of the analysis is the hope to use R code in order to develop a model to see which indicators may play a role in the crime rate of Washington D.C. wards. After the analysis is concluded we will be formulating our final conclusions to include a discussion of possible shortfalls of our project. We also intend to create some visualizations about our analysis and about our data which will show these relationships. These visualizations will not only help to inform our readers of the conclusions, but to actually see the associations that we were able to find - or not find - within these datasets. We plan to include these visualizations within the conclusions of our findings. These conclusions will then be re-formatted into a presentation to discuss with the class what our project was, and what the findings were. The visualizations and analysis will be a part of these presented conclusions such that the audience can get a brief overview of what we found, how we found it, and what it looks like. 
+  
+  
+\newpage
+
+**References**
+
+
+FIEBIG, J. (2010). Police Checkpoints: Lack of Guidance from the Supreme Court Contributes to Disregard of Civil Liberties in the District of Columbia. Journal of Criminal Law & Criminology, 100(2), 599–631. Retrieved from http://search.ebscohost.com.proxyau.wrlc.org/login.aspx?direct=true&db=aph&AN=53883604&site=ehost-live&scope=site
+
+Gross, K., & Aday, S. (2003). The Scary World in Your Living Room and Neighborhood: Using Local Broadcast News, Neighborhood Crime Rates, and Personal Experience to Test Agenda Setting and Cultivation. Journal of Communication, 53(3), 411–426. https://doi-org.proxyau.wrlc.org/10.1111/j.1460-2466.2003.tb02599.x
+
+Hipp, J. R., Kim, Y.-A., & Kane, K. (2019). The Effect of the Physical Environment on Crime Rates: Capturing Housing Age and Housing Type at Varying Spatial Scales. Crime & Delinquency, 65(11), 1570–1595. https://doi-org.proxyau.wrlc.org/10.1177/0011128718779569
+
+Lemelle, A. (2013). Gender, Race, and Homicide: Precarious Gesture and Bringing the Generalized Other Back In. Journal of African American Studies, 17(4), 546–565. https://doi-org.proxyau.wrlc.org/10.1007/s12111-012-9241-2
+
+McCall, P., Land, K., Dollar, C., & Parker, K. (2013). The Age Structure-Crime Rate Relationship: Solving a Long-Standing Puzzle. Journal of Quantitative Criminology, 29(2), 167–190. https://doi-org.proxyau.wrlc.org/10.1007/s10940-012-9175-9
+
+Stretesky, P. B., Schuck, A. M., & Hogan, M. J. (2004). Space Matters: An Analysis of Poverty, Poverty Clustering, and Violent Crime. JQ: Justice Quarterly, 21(4), 817–841. https://doi-org.proxyau.wrlc.org/10.1080/07418820400096001
+
