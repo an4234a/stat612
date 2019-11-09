@@ -1,7 +1,7 @@
 ---
 title: "project"
-author: "alan / Kevin"
-date: "10/29/2019"
+author: "Alan- Kevin"
+date: "11/1/2019"
 output: pdf_document
 ---
 
@@ -22,6 +22,11 @@ head(crime)
 
 # 1. There is a association between defendant profile (age, race, ethnicity and/or sex, state address) and type of arrest category. 
 
+- There was more offense by male than by female; most defendant age is between 20-30 (graph a)
+- There was more offense by Black than white and Asian. (graph b)
+- Between White, there was not much difference for hispanic and non hispanic (Graph c)
+- Simple Assault, Release Violations/Fugitive and Traffic Violations were the most occuring offense, either for male and female (table i and table ii)
+## Graph a
 ```{r}
 crime %>%
   filter(`Defendant Sex` != "UNK") %>%
@@ -29,10 +34,10 @@ crime %>%
   geom_histogram() + 
   theme_bw() + 
   facet_wrap(~`Defendant Sex`) +
-  xlab("Defendant Age") + ylab("number of arrest") + ggtitle("number of arrest by age in 2017") 
+  xlab("Defendant Age") + ylab("number of arrest") + ggtitle("number of arrest by age and gender in 2017") 
 ```
 
-
+## Graph b
 ```{r}
 crime %>%
   filter(`Defendant Race` != "UNK") %>%
@@ -40,9 +45,9 @@ crime %>%
   geom_histogram() + 
   theme_bw() + 
   facet_wrap(~`Defendant Race`) +
-  xlab("Defendance age") + ylab("number of arrest") + ggtitle("number of arrest by Race in 2017") 
+  xlab("Defendance age") + ylab("number of arrest") + ggtitle("number of arrest by age and Race in 2017") 
 ```
-
+## Graph c
 ```{r}
 crime %>%
   filter(`Defendant Race` == "WHITE") %>%
@@ -50,9 +55,10 @@ crime %>%
   geom_histogram() + 
   theme_bw() + 
   facet_wrap(~`Defendant Ethnicity`) +
-  xlab("Defendant Age") + ylab("number of arrest") + ggtitle("number of arrest by age in 2017") 
+  xlab("Defendant Age") + ylab("number of arrest") + ggtitle("number of arrest by White ethnicity in 2017") 
 ```
 
+##table i and table ii
 ```{r}
 crime_by_sex <- crime %>%
   filter(`Defendant Sex` != "UNK") %>%
@@ -61,87 +67,17 @@ crime_by_sex <- crime %>%
   ungroup() %>%
   spread(key = `Defendant Sex`, value = n)
 
+
+##table i - top 3 female offense
 crime_by_sex %>%
   select(1,2) %>%
   arrange(desc(FEMALE)) %>%
   slice(1:3)
 
+##table ii - top 3 male offense
 crime_by_sex %>%
   filter( `Arrest Category` != "Other Crimes") %>%
   select(1,3) %>%
   arrange(desc(MALE)) %>%
   slice(1:3)
 ```
-
-
-# 2. There are area which more offence and/or arrest than other. (possible by create a heat
-map of offense and/or arrest location)
-```{r }
-library(sf) #package to handling shape file
-library(viridis) ##color pallete for fill
-```
-
-
-```{r}
-map <- read_sf("Ward_from_2012.shp")
-class(map)
-```
-
-```{r}
-#map laying
-plotmap <- ggplot(map) +
-  geom_sf(aes()) +
-  theme_bw()
-crime2 <- na.omit(crime)
-
-#map overlaying
-plotmap + 
-  geom_point(data = crime2, aes(`Arrest Longitude`, `Arrest Latitude`), alpha = 0.03, colour= "red") + 
-  ggtitle("Arrest in DC")
-plotmap + 
-  geom_point(data = crime2, aes(`Offense Longitude`, `Offense Latitude`), alpha = 0.03, colour= "blue") +
-  ggtitle("Offense in DC")  
-```
-
-
-# 3. There are PSA had more arrest than other.
-
-```{r}
-psa <- read_sf("Police_Service_Areas.shp")
-psa_crime <- crime %>%
-  group_by(`Offense PSA`) %>%
-  tally() %>%
-  arrange(desc(n)) %>%
-  rename(PSA = "Offense PSA")
-
-psa_crime %>%
-  slice(1:5) %>%
-  rename(Top_5_offense_location = PSA)
-
-psa <- left_join(psa,psa_crime)
-
-plotmap2 <- ggplot(psa) +
-  geom_sf(aes(fill = n)) +
-  scale_fill_viridis("number of crime") +
-  theme_bw()
-plotmap2
-```
-
-# 4. There is association between type of arrest/offense and location.
-```{r}
-df <- crime %>%
-  group_by(`Offense PSA`,`Arrest Category`) %>%
-  tally() %>%
-  mutate(the_rank  = rank(-n, ties.method = "random")) %>%
-  filter(the_rank == 1) %>%
-  rename(PSA = `Offense PSA`)
-crime_type <- left_join(psa,df, by = "PSA")
-
-ggplot(crime_type) +
-  geom_sf(aes(fill = `Arrest Category`)) +
-  scale_fill_viridis("top arrest category by PSA", discrete = TRUE) +
-  theme_bw()
-
-```
-
-
