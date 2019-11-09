@@ -17,10 +17,10 @@ library(tidyverse)
 ```{r}
 ##load df
 crime <- read_csv(file = "Arrests 2017 Public.csv")
+head(crime)
 ```
 
-# research question : 1. There is a association between defendant profile (age, race, ethnicity and/or sex, state address) and type
-of arrest category. 
+# 1. There is a association between defendant profile (age, race, ethnicity and/or sex, state address) and type of arrest category. 
 
 ```{r}
 crime %>%
@@ -28,50 +28,120 @@ crime %>%
   ggplot(aes(Age)) +
   geom_histogram() + 
   theme_bw() + 
-  facet_wrap(~`Defendant Sex`)
-  xlab("Arrestee Age") + ylab("number of arrestee") + ggtitle("number of arrestee by age in 2017") 
-
-crime %>%
-  ggplot(aes(`Arrest Category`)) +
-  geom_bar() + 
-  theme_bw()
+  facet_wrap(~`Defendant Sex`) +
+  xlab("Defendant Age") + ylab("number of arrest") + ggtitle("number of arrest by age in 2017") 
 ```
 
 
-# research question : 2. There are area which more offence and/or arrest than other. (possible by create a heat
-map of offense and/or arrest location)
 ```{r}
-library(tigris) #package with available shape file
-library(rgdal) #dependent for tigris
-library(sf) #package to load shape file
-library(rvest) 
+crime %>%
+  filter(`Defendant Race` != "UNK") %>%
+  ggplot(aes(Age)) +
+  geom_histogram() + 
+  theme_bw() + 
+  facet_wrap(~`Defendant Race`) +
+  xlab("Defendance age") + ylab("number of arrest") + ggtitle("number of arrest by Race in 2017") 
+```
 
-##map loading using tigris
-map <- counties(11)
-map <- st_as_sf(map)
+```{r}
+crime %>%
+  filter(`Defendant Race` == "WHITE") %>%
+  ggplot(aes(Age)) +
+  geom_histogram() + 
+  theme_bw() + 
+  facet_wrap(~`Defendant Ethnicity`) +
+  xlab("Defendant Age") + ylab("number of arrest") + ggtitle("number of arrest by age in 2017") 
+```
+
+```{r}
+crime_by_sex <- crime %>%
+  filter(`Defendant Sex` != "UNK") %>%
+  group_by(`Arrest Category`,`Defendant Sex`) %>%
+  tally () %>%
+  ungroup() %>%
+  spread(key = `Defendant Sex`, value = n)
+
+crime_by_sex %>%
+  select(1,2) %>%
+  arrange(desc(FEMALE)) %>%
+  slice(1:3)
+
+crime_by_sex %>%
+  filter( `Arrest Category` != "Other Crimes") %>%
+  select(1,3) %>%
+  arrange(desc(MALE)) %>%
+  slice(1:3)
+```
+
+
+# 2. There are area which more offence and/or arrest than other. (possible by create a heat
+map of offense and/or arrest location)
+```{r }
+library(sf) #package to handling shape file
+library(viridis) ##color pallete for fill
+```
+
+
+```{r}
+map <- read_sf("Ward_from_2012.shp")
 class(map)
+```
 
+```{r}
 #map laying
 plotmap <- ggplot(map) +
   geom_sf(aes()) +
   theme_bw()
-plotmap
-
 crime2 <- na.omit(crime)
-crime2
-#map overlaying arrest location
+
+#map overlaying
 plotmap + 
   geom_point(data = crime2, aes(`Arrest Longitude`, `Arrest Latitude`), alpha = 0.03, colour= "red") + 
-  ggtitle("Crime in DC")
+  ggtitle("Arrest in DC")
+plotmap + 
+  geom_point(data = crime2, aes(`Offense Longitude`, `Offense Latitude`), alpha = 0.03, colour= "blue") +
+  ggtitle("Offense in DC")  
 ```
 
-#3. There is association between type of arrest/offense and location.
+
+# 3. There are PSA had more arrest than other.
+
 ```{r}
+psa <- read_sf("Police_Service_Areas.shp")
+psa_crime <- crime %>%
+  group_by(`Offense PSA`) %>%
+  tally() %>%
+  arrange(desc(n)) %>%
+  rename(PSA = "Offense PSA")
 
-  
+psa_crime %>%
+  slice(1:5) %>%
+  rename(Top_5_offense_location = PSA)
+
+psa <- left_join(psa,psa_crime)
+
+plotmap2 <- ggplot(psa) +
+  geom_sf(aes(fill = n)) +
+  scale_fill_viridis("number of crime") +
+  theme_bw()
+plotmap2
 ```
 
+# 4. There is association between type of arrest/offense and location.
+```{r}
+df <- crime %>%
+  group_by(`Offense PSA`,`Arrest Category`) %>%
+  tally() %>%
+  mutate(the_rank  = rank(-n, ties.method = "random")) %>%
+  filter(the_rank == 1) %>%
+  rename(PSA = `Offense PSA`)
+crime_type <- left_join(psa,df, by = "PSA")
 
-#4. There are PSA had more arrest than other.
+ggplot(crime_type) +
+  geom_sf(aes(fill = `Arrest Category`)) +
+  scale_fill_viridis("top arrest category by PSA", discrete = TRUE) +
+  theme_bw()
+
+```
 
 
