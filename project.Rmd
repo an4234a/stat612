@@ -148,7 +148,7 @@ non_income_rel %>%
 ```
 
 
-# 2. There are area which more offence and/or arrest than other. (*I think since PSA is defined area, we can make 2 and 3 as one hypotesis)
+# 2. There are area which more offence and/or arrest than other.
 
 - Most offense occured in center and south part of DC (map a)
 - there was no difference between offense location and arrest location (map b)
@@ -330,7 +330,7 @@ map_2 <- map %>%
   separate(NAME, into= c("ward1", "ward"), sep = " ") %>%
   left_join(ACS_unemployment, by = "ward") %>%
   st_join(intersect, by = "ward")
-##south area in DC had lower median income
+
 
 ggplot(map_2) + geom_sf(aes(fill = value)) 
 crime_unemployment_pw <- map_2 %>%
